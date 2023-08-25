@@ -328,7 +328,8 @@ for cascading paths as `where` children query condition.
   }
   ```
 
-- Use `$expr` for filtering queries between fields -value <-> value:
+- Use `$expr` for filtering queries between fields 
+  - value <-> value:
 
   ```json5
   {

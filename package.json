@@ -41,7 +41,7 @@
     "url": "https://github.com/betaly/loopbqck4-query.git"
   },
   "scripts": {
-    "prerelease": "yarn && cross-env CI=1 yarn run test",
+    "prerelease": "yarn && yarn build:full && cross-env CI=1 yarn run test",
     "release": "yarn prerelease && release-it",
     "build": "nb-tsc -b",
     "build:full": "yarn install && yarn run clean && yarn run build",

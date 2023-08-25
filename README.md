@@ -4,18 +4,18 @@
 
 ## Features
 
-- Support cascading filter queries (through `where` clauses such as
-  `{where: {'relation_ab.relation_bc.relation_cd.property': 'value'}}`)
-- Fully compatible with loopback-next's Where Filter
-- Support [hasMany](https://loopback.io/doc/en/lb4/HasMany-relation.html),
+- Facilitates cascading filter searches using `where` clauses (e.g.,
+  `{where: {'relation_ab.relation_bc.relation_cd.attribute': 'specificValue'}}`).
+- Ensures full compatibility with loopback-next's Where Filter.
+- Provides support for various relations including [hasMany](https://loopback.io/doc/en/lb4/HasMany-relation.html),
   [belongsTo](https://loopback.io/doc/en/lb4/BelongsTo-relation.html),
-  [hasOne](https://loopback.io/doc/en/lb4/HasOne-relation.html) and
-  [hasManyThrough](https://loopback.io/doc/en/lb4/HasManyThrough-relation.html) Relation
-- Support [Polymorphic Relation](https://loopback.io/doc/en/lb4/Polymorphic-relation.html)
-- Support `PostgreSQL`, `MSSQL`, `MySQL`, `MariaDB`, `SQLite3`, `Oracle` relational databases, other databases, extended
-  by Mixin The Repository will delegate to the parent's native query method.
-- [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) and `findOne` loading objects are not supported
-  [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) event.
+  [hasOne](https://loopback.io/doc/en/lb4/HasOne-relation.html), and
+  [hasManyThrough](https://loopback.io/doc/en/lb4/HasManyThrough-relation.html).
+- Incorporates [Polymorphic Relations](https://loopback.io/doc/en/lb4/Polymorphic-relation.html).
+- Supports multiple relational databases like `PostgreSQL`, `MSSQL`, `MySQL`, `MariaDB`, `SQLite3`, and `Oracle`. For
+  unsupported databases, Mixin The Repository hands off to the native query method.
+- The [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) and `findOne` objects' loading
+  [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) event isn't supported.
 
 ## Install
 
@@ -36,8 +36,6 @@ yarn add loopback4-query
 ```ts
 import {DefaultQuery, Query} from 'loopback4-query';
 
-import {typequery} from './decorators';
-
 class SomeClass {
   query: Query<SomeEntity>;
 
@@ -49,9 +47,13 @@ class SomeClass {
   }
 
   async findSomeEntity() {
+    // Find all `users` that have access to `project` and include `projects` with `bleco` in their name.
+    // CAUTION: `projects.name` condition must be the same as include `projects` condition.
     return this.query.find({
       where: {
-        // Through the name condition of projects, cascade query Org. But the result does not contain the associated object projects. To include associated objects, use the include method.
+        // Through the name condition of projects, cascade query Org.
+        // But the result does not contain the associated object projects.
+        // To include associated objects, use the include method.
         'projects.name': 'bleco',
         age: {
           gt: 10,
@@ -59,7 +61,7 @@ class SomeClass {
         },
       },
       include: [
-        // Contains the associated object projects
+        // Contains the associated object projects with the name condition of projects.
         {
           relation: 'projects',
           scope: {
@@ -74,28 +76,28 @@ class SomeClass {
 }
 ```
 
-## DefaultQuery
+## DefaultQuery Overview
 
-A query that performs model filtering queries through relational cascading conditions.
+DefaultQuery facilitates model search queries utilizing relational cascading criteria.
 
-### Usage
+### How To Use
 
-#### Construct
+#### Initialization
 
-Construct DefaultQuery with a Repository instance parameter, support include clause with
-[repository inclusion resolvers](https://loopback.io/doc/en/lb4/Relations.html)
+You can instantiate DefaultQuery with a Repository instance, supporting include clause via
+[repository inclusion resolvers](https://loopback.io/doc/en/lb4/Relations.html):
 
 ```ts
 new DefaultQuery(repository);
 ```
 
-Construct DefaultQuery with a model class and a datasource instance parameters, include is not supported clause
+Alternatively, you can use a model class and a datasource instance. Note that the include clause isn't supported here:
 
 ```ts
-new DefaultQuery(entityClass, datasource);
+new DefaultQuery(entityModel, datasourceInstance);
 ```
 
-#### `QueryRepositoryMixin` inheritance
+#### Inheriting `QueryRepositoryMixin`
 
 Extends native `find` and `findOne` support for seamless cascading queries by mixing in Repository with
 `QueryRepositoryMixin`. (Note: `find` is not supported and `findOne`'s
@@ -135,7 +137,7 @@ export class FooRepository
 }
 ```
 
-#### `@mixinQuery` decorator
+#### Using the `@mixinQuery` decorator
 
 Syntax:
 
@@ -157,7 +159,7 @@ export class FooRepositoryWithQueryDecorated extends DefaultCrudRepository<Foo, 
 export interface FooRepositoryWithQueryDecorated extends QueryRepository<Foo> {}
 ```
 
-#### `@query` decorator
+#### Applying the `@query` decorator
 
 Syntax:
 
@@ -328,7 +330,8 @@ for cascading paths as `where` children query condition.
   }
   ```
 
-- Use `$expr` for filtering queries between fields 
+- Use `$expr` for filtering queries between fields
+
   - value <-> value:
 
   ```json5

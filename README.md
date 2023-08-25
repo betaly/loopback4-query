@@ -332,19 +332,19 @@ for cascading paths as `where` children query condition.
 
 - Use `$expr` for filtering queries between fields
 
-  - value <-> value:
+  - Comparing two values:
 
-  ```json5
-  {
-    where: {
-      $expr: {
-        eq: [1, 0],
+    ```json5
+    {
+      where: {
+        $expr: {
+          eq: [1, 0],
+        },
       },
-    },
-  }
-  ```
+    }
+    ```
 
-  - Field <-> Value:
+  - Field to value:
     ```json5
     {
       where: {
@@ -354,7 +354,7 @@ for cascading paths as `where` children query condition.
       },
     }
     ```
-  - Value <-> fields:
+  - Value to field:
     ```json5
     {
       where: {
@@ -364,7 +364,7 @@ for cascading paths as `where` children query condition.
       },
     }
     ```
-  - field <-> field:
+  - Field to field:
     ```json5
     {
       where: {

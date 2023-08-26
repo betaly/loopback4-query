@@ -38,7 +38,8 @@
     "node": ">=16"
   },
   "repository": {
-    "url": "https://github.com/betaly/loopbqck4-query.git"
+    "type": "git",
+    "url": "https://github.com/betaly/loopback4-query.git"
   },
   "scripts": {
     "prerelease": "yarn && yarn build:full && cross-env CI=1 yarn run test",

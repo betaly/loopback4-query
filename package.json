@@ -1,6 +1,6 @@
 {
   "name": "loopback4-query",
-  "version": "0.11.3",
+  "version": "0.11.4",
   "description": "An enhanced query for loopback-next, which supports cascading queries through relational conditions.",
   "keywords": [
     "bleco",

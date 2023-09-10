@@ -9,6 +9,8 @@ import {QueryMixinOptions, QueryRepositoryMixin} from '../mixins';
  */
 export function mixinQuery(options: boolean | QueryMixinOptions = false) {
   return function <T extends MixinTarget<EntityCrudRepository<any, any>>>(superClass: T) {
-    return QueryRepositoryMixin(superClass, options);
+    const MixedRepository = QueryRepositoryMixin(superClass, options);
+    Object.defineProperty(MixedRepository, 'name', {value: superClass.name});
+    return MixedRepository;
   };
 }

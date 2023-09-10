@@ -54,6 +54,10 @@ describe('Query Mixin Integration Tests', () => {
       countSpy.mockClear();
     });
 
+    it('should keep original class name', () => {
+      expect(repo.constructor.name).toBe('FooRepositoryWithQueryDecorated');
+    });
+
     it('should not override original cruds', async () => {
       const filter = {where: {name: {like: '%Foo%'}}};
       await repo.find(filter);

@@ -23,3 +23,4 @@ coverage
 .sandbox
 *.tsbuildinfo
 dist/*
+junit.xml

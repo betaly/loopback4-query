@@ -49,12 +49,12 @@ export interface CrudRepositoryWithQuery<T extends Entity, ID, Relations extends
  * Query enhanced transactional repository without overwriting the default CRUD methods
  */
 @mixinQuery()
-export class CrudTransactionalRepositoryWithQuery<
+export class TransactionalCrudRepositoryWithQuery<
   T extends Entity,
   ID,
   Relations extends object = {},
 > extends DefaultTransactionalRepository<T, ID, Relations> {}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface CrudTransactionalRepositoryWithQuery<T extends Entity, ID, Relations extends object = {}>
+export interface TransactionalCrudRepositoryWithQuery<T extends Entity, ID, Relations extends object = {}>
   extends QueryEnhancedRepository<T, Relations> {}

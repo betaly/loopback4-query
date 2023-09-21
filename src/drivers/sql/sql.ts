@@ -65,7 +65,7 @@ export class SqlDriver extends Driver {
     filter: QueryFilter<T>,
   ): [Knex.QueryBuilder, QuerySession] {
     const transformer = this.resolvers.get(model);
-    const session = new QuerySession();
+    const session = QuerySession.create();
     const qb = this.knex(this.orm.tableEscaped(model.modelName)).queryContext({skipEscape: true});
     transformer.resolveJoin(qb, filter, session);
     transformer.resolveWhere(qb, filter, session);

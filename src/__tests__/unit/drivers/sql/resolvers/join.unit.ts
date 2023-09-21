@@ -32,7 +32,7 @@ describe('resolvers/join', () => {
   });
 
   beforeEach(() => {
-    session = new QuerySession();
+    session = QuerySession.create();
   });
 
   it('should resolve empty query', () => {

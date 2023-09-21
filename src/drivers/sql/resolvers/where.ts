@@ -224,7 +224,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
       return;
     }
     debug(`Resolving where clause for model ${this.entityClass.modelName}:`, where, session);
-    this.build(qb, where, session ?? new QuerySession());
+    this.build(qb, where, QuerySession.create(session));
   }
 
   build(qb: Knex.QueryBuilder<TModel>, where: QueryWhere<TModel>, session: QuerySession): void {

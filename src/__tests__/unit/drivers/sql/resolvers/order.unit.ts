@@ -23,7 +23,7 @@ describe('resolvers/order', () => {
   });
 
   beforeEach(() => {
-    session = new QuerySession();
+    session = QuerySession.create();
   });
 
   it('should resolve empty order', () => {
@@ -61,7 +61,7 @@ describe('resolvers/order', () => {
     testOrder(
       knex,
       resolvers[Foo.name],
-      new QuerySession({
+      QuerySession.create({
         relationOrder: {
           'a.b.c': {
             prefix: 't_0_0_',

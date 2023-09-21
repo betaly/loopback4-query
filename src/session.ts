@@ -1,6 +1,10 @@
-import {DataObject} from '@loopback/repository';
-
 import {RelationConstraint, RelationJoin} from './relation';
+
+export interface QuerySessionData {
+  relationJoins?: RelationJoin[];
+  relationWhere?: Record<string, RelationConstraint>;
+  relationOrder?: Record<string, RelationConstraint>;
+}
 
 export class QuerySession {
   readonly relationJoins: RelationJoin[];
@@ -9,11 +13,14 @@ export class QuerySession {
 
   private _seq = 0;
 
-  constructor(data?: DataObject<QuerySession>) {
-    Object.assign(this, data);
-    this.relationJoins = this.relationJoins ?? [];
-    this.relationWhere = this.relationWhere ?? {};
-    this.relationOrder = this.relationOrder ?? {};
+  static create(sessionOrData?: QuerySession | QuerySessionData) {
+    return sessionOrData instanceof QuerySession ? sessionOrData : new QuerySession(sessionOrData);
+  }
+
+  protected constructor(data?: QuerySessionData) {
+    this.relationJoins = data?.relationJoins ?? [];
+    this.relationWhere = data?.relationWhere ?? {};
+    this.relationOrder = data?.relationOrder ?? {};
   }
 
   currentSeq() {
@@ -22,6 +29,10 @@ export class QuerySession {
 
   nextSeq() {
     return this._seq++;
+  }
+
+  hasRelations() {
+    return this.hasRelationJoins() || this.hasRelationWhere() || this.hasRelationOrder();
   }
 
   hasRelationJoins() {

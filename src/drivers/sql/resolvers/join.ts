@@ -35,7 +35,7 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
   resolve(
     qb: Knex.QueryBuilder<TModel>,
     filter: QueryFilter<TModel>,
-    session: QuerySession = new QuerySession(),
+    session: QuerySession = QuerySession.create(),
   ): void {
     debug(`Resolving where clause for model ${this.entityClass.modelName}:`, filter, session);
     const {where, order} = filter;

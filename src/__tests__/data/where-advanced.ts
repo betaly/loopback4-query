@@ -44,6 +44,22 @@ export default [
     },
   },
   {
+    name: 'query with simple relations and main model condition',
+    model: 'Org',
+    where: {'projs.issues.title': {like: '%query%'}, id: 'abc'},
+    sql: 'select * from "public"."org" where "t_0_0_issue"."title" like ? and "org"."id" = ?',
+    bindings: ['%query%', 'abc'],
+    session: {
+      relationWhere: {
+        'projs.issues.title': {
+          prefix: 't_0_0_',
+          model: 'Issue',
+          property: {key: 'title'},
+        },
+      },
+    },
+  },
+  {
     name: 'query with $expr comparison',
     model: 'Bar',
     where: {$expr: {eq: ['$foo.a', '$foo.b']}},

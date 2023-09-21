@@ -313,7 +313,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
 
       return constraint
         ? this.orm.columnEscaped(constraint.model, p.key, true, constraint.prefix)
-        : this.orm.columnEscaped(this.entityClass.modelName, key, session.hasRelationWhere());
+        : this.orm.columnEscaped(this.entityClass.modelName, key, session.hasRelations());
     }
 
     return key;

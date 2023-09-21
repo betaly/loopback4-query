@@ -54,6 +54,22 @@ describe('Query Integration Tests', function () {
     expect(found.name).toEqual(employee.name);
     expect(found.org).toBeUndefined();
   });
+
+  it('should find with relation order and non-relation where', async () => {
+    const org1 = await organizationRepo.create({name: 'Org1'});
+    const org2 = await organizationRepo.create({name: 'Org2'});
+    const employee1 = await employeeRepo.create({name: 'Employee1', orgId: org1.id, titles: ['abc']});
+    await employeeRepo.create({name: 'Employee2', orgId: org2.id, titles: ['abc']});
+
+    const found = await employeeRepo.find({
+      where: {
+        name: {like: '%Employee%'},
+      },
+      order: ['org.name asc'],
+    });
+    expect(found).toHaveLength(2);
+    expect(found[0]).toEqual(employee1);
+  });
 });
 
 //--- HELPERS ---//

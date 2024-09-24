@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import {Operators} from '@loopback/filter';
 import {
-  AnyObject,
+  AnyObject, Class,
   Entity,
   HasManyDefinition,
   ModelDefinition,
@@ -121,7 +121,7 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
     const relationPath = this.entityClass.modelName;
 
     let parentPrefix = '';
-    let parentEntity = this.entityClass;
+    let parentEntity: Class<Entity> = this.entityClass;
     let join: RelationJoin | undefined;
     let potentialRelationPath = relationPath;
 
